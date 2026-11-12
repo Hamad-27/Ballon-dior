@@ -1,0 +1,824 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE BALLON D'OR | Football Legends</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --gold: #d8b45b;
+  --light-gold: #f4dc9b;
+  --black: #090909;
+  --panel: #151515;
+  --muted: #aaa;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:var(--black);
+  color:#fff;
+  font-family:'DM Sans',sans-serif;
+  overflow-x:hidden;
+}
+button { font:inherit; cursor:pointer; }
+a { color:inherit; text-decoration:none; }
+
+header {
+  position:fixed;
+  top:0; left:0; width:100%;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:17px 7%;
+  background:rgba(5,5,5,.92);
+  border-bottom:1px solid #ffffff15;
+  backdrop-filter:blur(15px);
+}
+.logo {
+  font-family:'Cinzel',serif;
+  color:var(--gold);
+  font-size:19px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+nav { display:flex; gap:25px; }
+nav a {
+  font-size:12px;
+  letter-spacing:1px;
+  color:#ddd;
+  transition:.3s;
+}
+nav a:hover { color:var(--gold); }
+.menu-btn {
+  display:none;
+  background:none;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  padding:8px 12px;
+}
+.hero {
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:130px 20px 70px;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse at center,#61471955 0%,transparent 55%),
+    linear-gradient(180deg,#17130b,#090909 85%);
+}
+.hero::before {
+  content:"";
+  position:absolute;
+  width:450px;height:450px;
+  border:1px solid #d8b45b30;
+  border-radius:50%;
+  box-shadow:0 0 100px #d8b45b18;
+}
+.hero-content { position:relative; z-index:2; }
+.eyebrow {
+  color:var(--gold);
+  letter-spacing:5px;
+  font-size:11px;
+  margin-bottom:25px;
+}
+.hero h1 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(38px,8vw,85px);
+  line-height:1.12;
+  color:var(--light-gold);
+}
+.hero h1 span { color:white; }
+.hero p {
+  color:#bbb;
+  max-width:600px;
+  margin:22px auto;
+  line-height:1.8;
+  font-size:14px;
+}
+.gold-btn {
+  display:inline-block;
+  background:linear-gradient(120deg,#a77a29,#f4dc9b,#b58b3b);
+  color:#111;
+  border:none;
+  padding:14px 27px;
+  font-weight:700;
+  letter-spacing:1px;
+  margin-top:18px;
+  transition:.3s;
+}
+.gold-btn:hover { transform:translateY(-4px); box-shadow:0 8px 30px #d8b45b40; }
+
+section { padding:90px 7%; }
+.section-title {
+  font-family:'Cinzel',serif;
+  color:var(--light-gold);
+  text-align:center;
+  font-size:clamp(26px,5vw,42px);
+  margin-bottom:12px;
+}
+.section-sub {
+  color:var(--muted);
+  text-align:center;
+  font-size:13px;
+  margin-bottom:45px;
+}
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  max-width:850px;
+  margin:45px auto 0;
+}
+.stat {
+  background:#ffffff08;
+  border:1px solid #d8b45b30;
+  padding:25px 10px;
+  text-align:center;
+}
+.stat strong {
+  display:block;
+  color:var(--gold);
+  font-family:'Cinzel',serif;
+  font-size:30px;
+}
+.stat span { color:#aaa; font-size:11px; }
+
+.history-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:18px;
+}
+.history-card {
+  background:var(--panel);
+  border:1px solid #ffffff15;
+  padding:22px;
+  transition:.3s;
+}
+.history-card:hover {
+  border-color:var(--gold);
+  transform:translateY(-5px);
+}
+.history-card h3 {
+  color:var(--gold);
+  font-family:'Cinzel',serif;
+  margin-bottom:10px;
+}
+.history-card p { color:#aaa; font-size:13px; line-height:1.7; }
+
+.filters {
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:30px;
+}
+.filter-btn {
+  background:#171717;
+  color:#ddd;
+  border:1px solid #444;
+  padding:10px 17px;
+  font-size:12px;
+}
+.filter-btn.active,.filter-btn:hover {
+  color:#111;
+  background:var(--gold);
+  border-color:var(--gold);
+}
+.search {
+  display:block;
+  width:min(100%,450px);
+  margin:0 auto 30px;
+  padding:13px 16px;
+  background:#151515;
+  color:white;
+  border:1px solid #555;
+  outline:none;
+}
+.search:focus { border-color:var(--gold); }
+
+.winner-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:20px;
+}
+.winner-card {
+  background:#151515;
+  border:1px solid #ffffff17;
+  overflow:hidden;
+  transition:.3s;
+  cursor:pointer;
+}
+.winner-card:hover {
+  transform:translateY(-7px);
+  border-color:var(--gold);
+}
+.winner-card img {
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  background:#29231a;
+}
+.winner-info { padding:17px; }
+.winner-info h3 {
+  font-family:'Cinzel',serif;
+  color:var(--light-gold);
+  font-size:15px;
+}
+.winner-info p { color:#aaa; font-size:12px; margin-top:7px; }
+.winner-info .year { color:var(--gold); }
+
+.detail-page {
+  display:none;
+  min-height:100vh;
+  padding:120px 7% 70px;
+  background:radial-gradient(ellipse at top,#4c371b55,transparent 65%);
+}
+.detail-layout {
+  display:grid;
+  grid-template-columns:minmax(220px,350px) 1fr;
+  gap:40px;
+  max-width:1050px;
+  margin:auto;
+}
+.detail-layout img {
+  width:100%;
+  max-height:440px;
+  object-fit:cover;
+  border:1px solid var(--gold);
+}
+.detail-text h1 {
+  font-family:'Cinzel',serif;
+  color:var(--light-gold);
+  font-size:clamp(28px,5vw,48px);
+  margin-bottom:15px;
+}
+.detail-text p { color:#bbb; line-height:1.8; margin:12px 0; }
+.detail-text h3 {
+  color:var(--gold);
+  font-family:'Cinzel',serif;
+  margin-top:25px;
+}
+.detail-text ul { padding-left:20px; color:#ccc; line-height:2; }
+.back-btn {
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  padding:11px 20px;
+  margin-bottom:30px;
+}
+.back-btn:hover { background:var(--gold); color:#111; }
+
+.records {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+}
+.record {
+  background:#151515;
+  border-left:3px solid var(--gold);
+  padding:22px;
+}
+.record h3 { color:var(--gold); font-family:'Cinzel',serif; }
+.record p { color:#aaa; margin-top:9px; font-size:13px; line-height:1.6; }
+
+.reveal {
+  opacity:0;
+  transform:translateY(25px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+footer {
+  border-top:1px solid #ffffff20;
+  padding:35px 7%;
+  text-align:center;
+  color:#888;
+  font-size:12px;
+}
+footer span { color:var(--gold); }
+
+@media(max-width:700px) {
+  header { padding:15px 5%; }
+  nav {
+    display:none;
+    position:absolute;
+    top:65px;left:0;width:100%;
+    background:#101010;
+    padding:25px;
+    flex-direction:column;
+    border-bottom:1px solid #d8b45b55;
+  }
+  nav.open { display:flex; }
+  .menu-btn { display:block; }
+  section { padding:70px 5%; }
+  .stats { grid-template-columns:1fr; }
+  .detail-layout { grid-template-columns:1fr; }
+  .detail-layout img { max-height:350px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo">BALLON D'OR</a>
+  <button class="menu-btn" onclick="toggleMenu()">MENU</button>
+  <nav id="nav">
+    <a href="#home" onclick="closeMenu()">HOME</a>
+    <a href="#history" onclick="closeMenu()">HISTORY</a>
+    <a href="#winners" onclick="closeMenu()">WINNERS</a>
+    <a href="#women" onclick="closeMenu()">WOMEN</a>
+    <a href="#records" onclick="closeMenu()">RECORDS</a>
+  </nav>
+</header>
+
+<main id="mainPage">
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="eyebrow">FOOTBALL'S GREATEST INDIVIDUAL HONOUR</div>
+    <h1>THE <span>BALLON</span><br>D'OR</h1>
+    <p>
+      Celebrating the legends, unforgettable moments and extraordinary
+      players who have shaped the history of world football.
+    </p>
+    <a href="#winners" class="gold-btn">EXPLORE THE LEGENDS</a>
+
+    <div class="stats">
+      <div class="stat">
+        <strong>1956</strong>
+        <span>FIRST AWARD</span>
+      </div>
+      <div class="stat">
+        <strong>70</strong>
+        <span>YEARS OF HISTORY IN 2026</span>
+      </div>
+      <div class="stat">
+        <strong>2018</strong>
+        <span>WOMEN'S AWARD BEGAN</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="history">
+  <h2 class="section-title reveal">THE HISTORY</h2>
+  <p class="section-sub reveal">
+    The story of football's most prestigious individual award
+  </p>
+
+  <div class="history-grid">
+    <article class="history-card reveal">
+      <h3>1956 — The Beginning</h3>
+      <p>
+        France Football introduced the Ballon d'Or in 1956.
+        English footballer Stanley Matthews became its first winner.
+      </p>
+    </article>
+
+    <article class="history-card reveal">
+      <h3>European Era</h3>
+      <p>
+        Initially, the award was limited to European players
+        playing for European clubs.
+      </p>
+    </article>
+
+    <article class="history-card reveal">
+      <h3>1995 — A New Era</h3>
+      <p>
+        Players of any nationality playing for European clubs
+        became eligible.
+      </p>
+    </article>
+
+    <article class="history-card reveal">
+      <h3>2007 — Worldwide</h3>
+      <p>
+        The award opened to players from around the world,
+        regardless of the league in which they played.
+      </p>
+    </article>
+
+    <article class="history-card reveal">
+      <h3>2018 — Women's Award</h3>
+      <p>
+        The Women's Ballon d'Or was introduced, recognising
+        outstanding achievements in women's football.
+      </p>
+    </article>
+
+    <article class="history-card reveal">
+      <h3>2020 — No Award</h3>
+      <p>
+        The Ballon d'Or was cancelled in 2020 because of
+        the extraordinary circumstances of the pandemic.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section id="winners">
+  <h2 class="section-title reveal">THE GOLDEN LEGENDS</h2>
+  <p class="section-sub reveal">
+    Explore famous men's Ballon d'Or winners
+  </p>
+
+  <input
+    class="search"
+    id="searchInput"
+    type="search"
+    placeholder="Search a football legend..."
+    oninput="renderWinners()"
+  >
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="setFilter('all',this)">ALL</button>
+    <button class="filter-btn" onclick="setFilter('1950',this)">1950s</button>
+    <button class="filter-btn" onclick="setFilter('1960',this)">1960s</button>
+    <button class="filter-btn" onclick="setFilter('1970',this)">1970s</button>
+    <button class="filter-btn" onclick="setFilter('1980',this)">1980s</button>
+    <button class="filter-btn" onclick="setFilter('1990',this)">1990s</button>
+    <button class="filter-btn" onclick="setFilter('2000',this)">2000s</button>
+    <button class="filter-btn" onclick="setFilter('2010',this)">2010s</button>
+    <button class="filter-btn" onclick="setFilter('2020',this)">2020s</button>
+  </div>
+
+  <div class="winner-grid" id="winnerGrid"></div>
+</section>
+
+<section id="women">
+  <h2 class="section-title reveal">WOMEN'S BALLON D'OR</h2>
+  <p class="section-sub reveal">
+    Celebrating the greatest players in women's football
+  </p>
+  <div class="winner-grid" id="womenGrid"></div>
+</section>
+
+<section id="records">
+  <h2 class="section-title reveal">RECORDS & ACHIEVEMENTS</h2>
+  <p class="section-sub reveal">Some remarkable Ballon d'Or milestones</p>
+
+  <div class="records">
+    <div class="record reveal">
+      <h3>Most Wins</h3>
+      <p>Lionel Messi holds the record with eight men's Ballon d'Or awards.</p>
+    </div>
+    <div class="record reveal">
+      <h3>First Winner</h3>
+      <p>Stanley Matthews won the inaugural award in 1956.</p>
+    </div>
+    <div class="record reveal">
+      <h3>Youngest Winner</h3>
+      <p>Ronaldo Nazário won in 1997 at age 21.</p>
+    </div>
+    <div class="record reveal">
+      <h3>Women's Record</h3>
+      <p>Aitana Bonmatí won three consecutive awards from 2023 to 2025.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Individual player profile -->
+<div class="detail-page" id="detailPage">
+  <button class="back-btn" onclick="closePlayer()">← BACK TO WEBSITE</button>
+  <div class="detail-layout">
+    <img id="playerImage" src="" alt="Football player">
+    <div class="detail-text">
+      <h1 id="playerName"></h1>
+      <p id="playerAward"></p>
+      <p id="playerBio"></p>
+
+      <h3>CLUB CAREER</h3>
+      <ul id="playerClubs"></ul>
+
+      <h3>CAREER STATISTICS</h3>
+      <p id="playerStats"></p>
+
+      <h3>TROPHY COLLECTION</h3>
+      <ul id="playerTrophies"></ul>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>THE BALLON D'OR — A CELEBRATION OF FOOTBALL HISTORY</p>
+  <p style="margin-top:10px">An independent fan-made educational website.</p>
+  <p style="margin-top:10px">© 2026 <span>THE GOLDEN LEGENDS</span></p>
+</footer>
+</body>
+<script>
+const players = [
+  {
+    name:"Stanley Matthews",year:1956,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Stanley_Matthews_1953.jpg",
+    bio:"The first-ever Ballon d'Or winner. An English football legend famous for his dribbling and skill.",
+    clubs:["Stoke City","Blackpool"],
+    stats:"The inaugural Ballon d'Or winner in 1956.",
+    trophies:["Ballon d'Or 1956","FA Cup 1953"]
+  },
+  {
+    name:"Alfredo Di Stéfano",year:1957,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Alfredo_Di_St%C3%A9fano_1962.jpg",
+    bio:"A legendary forward who became one of Real Madrid's greatest players.",
+    clubs:["River Plate","Real Madrid","Espanyol"],
+    stats:"Two Ballon d'Or awards: 1957 and 1959.",
+    trophies:["Ballon d'Or 1957","Ballon d'Or 1959","European Cups"]
+  },
+  {
+    name:"Raymond Kopa",year:1958,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Raymond_Kopa_1963.jpg",
+    bio:"French football star who helped Real Madrid dominate European football.",
+    clubs:["Reims","Real Madrid"],
+    stats:"Ballon d'Or winner in 1958.",
+    trophies:["Ballon d'Or 1958","European Cups"]
+  },
+  {
+    name:"Luis Suárez",year:1960,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Luis_Suarez_Miramon.jpg",
+    bio:"Spanish midfielder and the first Spanish player to win the Ballon d'Or.",
+    clubs:["Barcelona","Inter Milan"],
+    stats:"Ballon d'Or winner in 1960.",
+    trophies:["Ballon d'Or 1960","European Championship 1964"]
+  },
+  {
+    name:"Johan Cruyff",year:1971,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Johan_Cruijff_1974.jpg",
+    bio:"A revolutionary footballer whose style changed the game.",
+    clubs:["Ajax","Barcelona","Feyenoord"],
+    stats:"Three Ballon d'Or wins: 1971, 1973 and 1974.",
+    trophies:["Ballon d'Or 1971","Ballon d'Or 1973","Ballon d'Or 1974","European Cups"]
+  },
+  {
+    name:"Franz Beckenbauer",year:1972,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Franz_Beckenbauer_1974.jpg",
+    bio:"Known as Der Kaiser, he transformed the role of the sweeper.",
+    clubs:["Bayern Munich","New York Cosmos","Hamburger SV"],
+    stats:"Two Ballon d'Or wins: 1972 and 1976.",
+    trophies:["Ballon d'Or 1972","Ballon d'Or 1976","World Cup 1974"]
+  },
+  {
+    name:"Michel Platini",year:1983,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Michel_Platini_2010.jpg",
+    bio:"French midfield genius who dominated European football in the 1980s.",
+    clubs:["Nancy","Saint-Étienne","Juventus"],
+    stats:"Three consecutive Ballon d'Or wins: 1983, 1984 and 1985.",
+    trophies:["Ballon d'Or 1983","Ballon d'Or 1984","Ballon d'Or 1985","European Championship 1984"]
+  },
+  {
+    name:"Marco van Basten",year:1988,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Marco_van_Basten_2012.jpg",
+    bio:"A technically gifted Dutch striker remembered for his incredible goals.",
+    clubs:["Ajax","AC Milan"],
+    stats:"Three Ballon d'Or wins: 1988, 1989 and 1992.",
+    trophies:["Ballon d'Or 1988","Ballon d'Or 1989","Ballon d'Or 1992","European Championship 1988"]
+  },
+  {
+    name:"Ronaldo Nazário",year:1997,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Ronaldo_Inter.jpg",
+    bio:"The Brazilian phenomenon, famous for his speed, technique and finishing.",
+    clubs:["Barcelona","Inter Milan","Real Madrid","AC Milan"],
+    stats:"Two Ballon d'Or wins: 1997 and 2002.",
+    trophies:["Ballon d'Or 1997","Ballon d'Or 2002","World Cup 2002"]
+  },
+  {
+    name:"Zinedine Zidane",year:1998,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Zinedine_Zidane_2008.jpg",
+    bio:"French midfield legend known for his elegance, vision and technique.",
+    clubs:["Juventus","Real Madrid"],
+    stats:"Ballon d'Or winner in 1998.",
+    trophies:["Ballon d'Or 1998","World Cup 1998","European Championship 2000"]
+  },
+  {
+    name:"Rivaldo",year:1999,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Rivaldo_2010.jpg",
+    bio:"Brazilian attacking star who won the award during his Barcelona years.",
+    clubs:["Deportivo La Coruña","Barcelona","AC Milan"],
+    stats:"Ballon d'Or winner in 1999.",
+    trophies:["Ballon d'Or 1999","World Cup 2002"]
+  },
+  {
+    name:"Michael Owen",year:2001,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Michael_Owen_2012.jpg",
+    bio:"English striker who became one of the youngest Ballon d'Or winners.",
+    clubs:["Liverpool","Real Madrid","Newcastle United","Manchester United"],
+    stats:"Ballon d'Or winner in 2001.",
+    trophies:["Ballon d'Or 2001","FA Cup 2001","UEFA Cup 2001"]
+  },
+  {
+    name:"Ronaldinho",year:2005,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Ronaldinho_2019.jpg",
+    bio:"Brazilian superstar celebrated for creativity, flair and spectacular skills.",
+    clubs:["Barcelona","AC Milan","Paris Saint-Germain"],
+    stats:"Ballon d'Or winner in 2005.",
+    trophies:["Ballon d'Or 2005","World Cup 2002","Champions League 2006"]
+  },
+  {
+    name:"Kaká",year:2007,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Kaka_2018.jpg",
+    bio:"Elegant Brazilian playmaker who starred for AC Milan.",
+    clubs:["AC Milan","Real Madrid","Orlando City"],
+    stats:"Ballon d'Or winner in 2007.",
+    trophies:["Ballon d'Or 2007","Champions League 2007"]
+  },
+  {
+    name:"Lionel Messi",year:2009,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Lionel_Messi_20180626.jpg",
+    bio:"Argentine legend and record eight-time men's Ballon d'Or winner.",
+    clubs:["Barcelona","Paris Saint-Germain","Inter Miami"],
+    stats:"Eight wins: 2009, 2010, 2011, 2012, 2015, 2019, 2021 and 2023.",
+    trophies:["8 Ballon d'Or awards","World Cup 2022","Copa América 2021 and 2024","Champions League titles"]
+  },
+  {
+    name:"Cristiano Ronaldo",year:2008,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Cristiano_Ronaldo_2018.jpg",
+    bio:"Portuguese superstar known for extraordinary goalscoring and athleticism.",
+    clubs:["Manchester United","Real Madrid","Juventus","Al Nassr"],
+    stats:"Five Ballon d'Or wins: 2008, 2013, 2014, 2016 and 2017.",
+    trophies:["5 Ballon d'Or awards","European Championship 2016","UEFA Nations League 2019","Champions League titles"]
+  },
+  {
+    name:"Luka Modrić",year:2018,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Luka_Modric_2018.jpg",
+    bio:"Croatian midfield maestro who ended the Messi-Ronaldo winning streak.",
+    clubs:["Tottenham Hotspur","Real Madrid"],
+    stats:"Ballon d'Or winner in 2018.",
+    trophies:["Ballon d'Or 2018","World Cup runner-up 2018","Champions League titles"]
+  },
+  {
+    name:"Karim Benzema",year:2022,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Karim_Benzema_2021.jpg",
+    bio:"French striker recognised after a remarkable season with Real Madrid.",
+    clubs:["Lyon","Real Madrid","Al-Ittihad"],
+    stats:"Ballon d'Or winner in 2022.",
+    trophies:["Ballon d'Or 2022","Champions League titles","La Liga titles"]
+  },
+  {
+    name:"Rodri",year:2024,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Rodri_2021.jpg",
+    bio:"Spanish midfielder recognised for his outstanding performances for Manchester City and Spain.",
+    clubs:["Villarreal","Atlético Madrid","Manchester City"],
+    stats:"Ballon d'Or winner in 2024.",
+    trophies:["Ballon d'Or 2024","European Championship 2024","Champions League 2023"]
+  },
+  {
+    name:"Ousmane Dembélé",year:2025,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Ousmane_Dembele_2018.jpg",
+    bio:"French forward recognised with the 2025 men's Ballon d'Or.",
+    clubs:["Borussia Dortmund","Barcelona","Paris Saint-Germain"],
+    stats:"Ballon d'Or winner in 2025.",
+    trophies:["Ballon d'Or 2025"]
+  }
+];
+
+const women = [
+  {
+    name:"Ada Hegerberg",year:2018,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Ada_Hegerberg_2019.jpg",
+    bio:"Norwegian striker and the inaugural Women's Ballon d'Or winner.",
+    clubs:["Lyon"],
+    stats:"Women's Ballon d'Or winner in 2018.",
+    trophies:["Women's Ballon d'Or 2018","Champions League titles"]
+  },
+  {
+    name:"Megan Rapinoe",year:2019,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Megan_Rapinoe_2019.jpg",
+    bio:"American football star and 2019 Women's Ballon d'Or winner.",
+    clubs:["OL Reign"],
+    stats:"Women's Ballon d'Or winner in 2019.",
+    trophies:["Women's Ballon d'Or 2019","World Cup 2019"]
+  },
+  {
+    name:"Alexia Putellas",year:2021,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Alexia_Putellas_2021.jpg",
+    bio:"Spanish midfielder and two-time Women's Ballon d'Or winner.",
+    clubs:["Barcelona"],
+    stats:"Women's Ballon d'Or winner in 2021 and 2022.",
+    trophies:["Women's Ballon d'Or 2021","Women's Ballon d'Or 2022"]
+  },
+  {
+    name:"Aitana Bonmatí",year:2023,
+    image:"https://commons.wikimedia.org/wiki/Special:FilePath/Aitana_Bonmati_2023.jpg",
+    bio:"Spanish midfielder and three-time Women's Ballon d'Or winner.",
+    clubs:["Barcelona"],
+    stats:"Women's Ballon d'Or winner in 2023, 2024 and 2025.",
+    trophies:["Women's Ballon d'Or 2023","Women's Ballon d'Or 2024","Women's Ballon d'Or 2025"]
+  }
+];
+
+let currentFilter = "all";
+
+function toggleMenu() {
+  document.getElementById("nav").classList.toggle("open");
+}
+
+function closeMenu() {
+  document.getElementById("nav").classList.remove("open");
+}
+
+function decade(year) {
+  return Math.floor(year / 10) * 10;
+}
+
+function setFilter(filter,button) {
+  currentFilter = filter;
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  button.classList.add("active");
+  renderWinners();
+}
+
+function renderCards(list,container) {
+  container.innerHTML = "";
+
+  list.forEach(player => {
+    const card = document.createElement("article");
+    card.className = "winner-card reveal";
+
+    card.innerHTML = `
+      <img src="${player.image}" alt="${player.name}"
+           loading="lazy"
+           onerror="this.src='https://placehold.co/400x450/171717/d8b45b?text=Football+Legend'">
+      <div class="winner-info">
+        <h3>${player.name}</h3>
+        <p class="year">BALLON D'OR — ${player.year}</p>
+        <p>View player profile →</p>
+      </div>
+    `;
+
+    card.addEventListener("click",() => openPlayer(player));
+    container.appendChild(card);
+  });
+  observeReveal();
+}
+
+function renderWinners() {
+  const search = document.getElementById("searchInput").value.toLowerCase();
+
+  const filtered = players.filter(player => {
+    const matchesSearch = player.name.toLowerCase().includes(search);
+    const matchesDecade =
+      currentFilter === "all" ||
+      decade(player.year) === Number(currentFilter);
+
+    return matchesSearch && matchesDecade;
+  });
+
+  renderCards(filtered,document.getElementById("winnerGrid"));
+}
+
+function openPlayer(player) {
+  document.getElementById("mainPage").style.display = "none";
+  document.getElementById("detailPage").style.display = "block";
+
+  document.getElementById("playerName").textContent = player.name;
+  document.getElementById("playerAward").textContent =
+    "BALLON D'OR WINNER — " + player.year;
+  document.getElementById("playerBio").textContent = player.bio;
+  document.getElementById("playerImage").src = player.image;
+  document.getElementById("playerImage").alt = player.name;
+  document.getElementById("playerStats").textContent = player.stats;
+
+  document.getElementById("playerClubs").innerHTML =
+    player.clubs.map(club => `<li>${club}</li>`).join("");
+
+  document.getElementById("playerTrophies").innerHTML =
+    player.trophies.map(trophy => `<li>${trophy}</li>`).join("");
+
+  window.scrollTo(0,0);
+}
+
+function closePlayer() {
+  document.getElementById("detailPage").style.display = "none";
+  document.getElementById("mainPage").style.display = "block";
+  window.scrollTo(0,0);
+}
+
+function observeReveal() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.1});
+
+  document.querySelectorAll(".reveal:not(.visible)").forEach(el => {
+    observer.observe(el);
+  });
+}
+
+renderWinners();
+renderCards(women,document.getElementById("womenGrid"));
+observeReveal();
+</script>
+
+</html>
